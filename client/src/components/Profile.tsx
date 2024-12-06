@@ -194,9 +194,9 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
       setChangePasswordLoading(false);
       console.error(
         "Failed to change password:",
-        error.response?.data?.message || error.message
+        error.response?.data?.message || error.response.data.error
       );
-      setErrorMessage(error.response?.data?.error || error.message);
+      setErrorMessage(error.response?.data?.message || error.response.data.error);
     }
   };
 
@@ -607,7 +607,8 @@ const Profile = ({ isdarkMode }: { isdarkMode: boolean }) => {
             </div>
             {errorMessage && <p className="text-red-500">{errorMessage}</p>}
             <button
-              className="text-white bg-primary flex justify-center items-center rounded-[12px] w-full h-[50px] mt-4"
+              disabled={!currentPassword || loading}
+              className={`text-white bg-primary flex justify-center items-center rounded-[12px] w-full h-[50px] mt-4 ${!currentPassword && 'cursor-not-allowed'}`}
               onClick={handleChangePassword}
             >
               {loading ? <PropogateLoader color="#FFFF" /> : "Change Password"}
